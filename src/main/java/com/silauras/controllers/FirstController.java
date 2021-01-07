@@ -31,25 +31,17 @@ public class FirstController {
     }
 
     @GetMapping("/calculator")
-    public String calculatorPage(@RequestParam(value = "a", required = false) String aInput,
-                                 @RequestParam(value = "b", required = false) String bInput,
-                                 @RequestParam(value = "action", required = false) String action,
+    public String calculatorPage(@RequestParam("a") int a,
+                                 @RequestParam("b") int b,
+                                 @RequestParam("action") String action,
                                  Model model) {
 
-        int a = 0;
-        int b = 0;
-        if (aInput!= null & bInput != null) {
-            a = Integer.parseInt(aInput);
-            b = Integer.parseInt(bInput);
-        }
-        if (action != null) {
-            switch (action) {
-                case "multiplication" -> model.addAttribute("result", a + " * " + b + " = " + (a * b));
-                case "addition" -> model.addAttribute("result", a + " + " + b + " = " + (a + b));
-                case "subtraction" -> model.addAttribute("result", a + " - " + b + " = " + (a - b));
-                case "division" -> model.addAttribute("result", a + " / " + b + " = " + (a / b));
-                default -> model.addAttribute("result", "invalid input data");
-            }
+        switch (action) {
+            case "multiplication" -> model.addAttribute("result", a + " * " + b + " = " + ((double) (a * b)));
+            case "addition" -> model.addAttribute("result", a + " + " + b + " = " + ((double) (a + b)));
+            case "subtraction" -> model.addAttribute("result", a + " - " + b + " = " + ((double) (a - b)));
+            case "division" -> model.addAttribute("result", a + " / " + b + " = " + ((double) (a / b)));
+            default -> model.addAttribute("result", "invalid input data");
         }
 
         return "first/calculator";
