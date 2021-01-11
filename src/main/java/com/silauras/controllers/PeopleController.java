@@ -1,12 +1,11 @@
 package com.silauras.controllers;
 
 import com.silauras.dao.PersonDAO;
+import com.silauras.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Silauras on 10.01.2021 at 19:01
@@ -35,5 +34,16 @@ public class PeopleController {
         // Get one person by id from the DAO and send it to the view for display
         model.addAttribute("person", personDAO.show(id));
         return "people/show";
+    }
+
+    @GetMapping("/new")
+    public String newPerson(@ModelAttribute("person") Person person){
+        return "people/new";
+    }
+
+    @PostMapping()
+    public String create(@ModelAttribute("person") Person person){
+        personDAO.save(person);
+        return "redirect:/people";
     }
 }
